@@ -379,9 +379,11 @@ class PlaceDB (object):
         @return density map
         """
         bin_index_xl = np.maximum(np.floor(x/self.bin_size_x).astype(np.int32), 0)
-        bin_index_xh = np.minimum(np.ceil((x+self.node_size_x)/self.bin_size_x).astype(np.int32), self.num_bins_x-1)
+        bin_index_xh = np.minimum(np.ceil((x+self.node_size_x[:len(x)])/self.bin_size_x).astype(np.int32), self.num_bins_x-1)
+        #bin_index_xh = np.minimum(np.ceil((x+self.node_size_x)/self.bin_size_x).astype(np.int32), self.num_bins_x-1)
         bin_index_yl = np.maximum(np.floor(y/self.bin_size_y).astype(np.int32), 0)
-        bin_index_yh = np.minimum(np.ceil((y+self.node_size_y)/self.bin_size_y).astype(np.int32), self.num_bins_y-1)
+        bin_index_yh = np.minimum(np.ceil((y+self.node_size_y[:len(x)])/self.bin_size_y).astype(np.int32), self.num_bins_y-1)
+        #bin_index_yh = np.minimum(np.ceil((y+self.node_size_y)/self.bin_size_y).astype(np.int32), self.num_bins_y-1)
 
         density_map = np.zeros([self.num_bins_x, self.num_bins_y])
 
