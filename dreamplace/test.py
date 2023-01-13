@@ -17,6 +17,7 @@ import sys
 import time
 import numpy as np
 import logging
+import math
 # for consistency between python2 and python3
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if root_dir not in sys.path:
@@ -46,10 +47,10 @@ def make_database(filename):
     #     if placedb.node_size_y[id]>placedb.row_height and placedb.node_size_x[id]>placedb.row_height:
     #         print(placedb.node_names[i].decode("utf-8"),placedb.node_x[id],placedb.node_y[id])
 
-    a,b=enum_macro_cell(placedb)
+    #a,b=enum_macro_cell(placedb)
 
-    print("num of movable macro: ",str(len(a)))
-    print("num of movable std cell: ",str(len(b)))
+    #print("num of movable macro: ",str(len(a)))
+    #print("num of movable std cell: ",str(len(b)))
 
     # placedb.read_pl(params,"/DREAMPlace/benchmarks/PA5590/PA5590.pl")
 
@@ -62,8 +63,8 @@ def make_database(filename):
 
 
 
-
-def enum_macro_cell(placedb):
+# dont use
+def enum_movable_macro_cell(placedb):
     macro_ids = []
     std_ids=[]
 
@@ -80,7 +81,7 @@ def enum_macro_cell(placedb):
 def overlap(xl1,xh1,yl1,yh1,xl2,xh2,yl2,yh2):
     """
 return overlap between two rec.
-"""
+    """
     return max(min(xh1, xh2)-max(xl1, xl2), 0.0) * max(min(yh1, yh2)-max(yl1, yl2), 0.0)
 
 def construct_density_map(size, pldb):
@@ -136,3 +137,15 @@ def add_macro2map(dmap, macro_id, pldb):
 
 
     return dmap
+
+def compute_bin_size(pldb, method='polar') -> float:
+    macros,cells=enum_macro_cell(pldb)
+    avg_macro_size=sum([pldb.node_area[i] for i macros]) / len(macros)
+
+    print("avg_macro_size is ",str(avg_macro_size))
+
+    if method=='polar':
+        # 
+        return math.ceil( math.sqrt(1*avg_macro_size/0.6) )
+
+

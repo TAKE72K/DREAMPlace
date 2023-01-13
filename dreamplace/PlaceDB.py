@@ -276,6 +276,11 @@ class PlaceDB (object):
         """
         return self.width*self.height
 
+    @property
+    def node_area(self,id):
+        return self.node_size_x[id]*self.node_size_y[id]
+    
+
     def bin_xl(self, id_x):
         """
         @param id_x horizontal index
